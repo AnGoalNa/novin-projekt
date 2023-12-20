@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/prefer-optional-chain */
+
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import type { PrismaClient } from '@prisma/client';
 import { compare } from 'bcryptjs';

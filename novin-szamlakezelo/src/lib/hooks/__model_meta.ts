@@ -256,6 +256,10 @@ const metadata = {
                 name: 'id',
                 fields: ['id'],
             },
+            username: {
+                name: 'username',
+                fields: ['username'],
+            },
         },
         verificationToken: {
             identifier_token: {
