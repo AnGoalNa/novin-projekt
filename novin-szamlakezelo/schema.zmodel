@@ -1,6 +1,11 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+plugin hooks {
+  provider = '@zenstackhq/swr'
+  output = "./src/lib/hooks"
+}
+
 generator client {
     provider = "prisma-client-js"
 }
