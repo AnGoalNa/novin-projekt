@@ -14,16 +14,23 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model Invoice {
+  id         String   @id @unique @default(cuid())
+  customer   String
+  issue_date DateTime @default(now())
+  due_date   DateTime
+  item       String
+  comment    String
+  price      Float
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+  @@index([customer])
+}
 
-    @@index([name])
+model Role {
+  id          String  @id @unique
+  name        String
+  description String?
+  users       User[]
 }
 
 // Necessary for Next auth
@@ -55,13 +62,18 @@ model Session {
 
 model User {
     id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
+    name          String
+    username      String
     emailVerified DateTime?
-    image         String?
+    password      String @password @omit
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
+    roles         Role[]
+    // role          Role @relation(fields: [role_id], references: [id])
+    // role_id       String
+
+    @@allow('create,read', true)
+    @@allow('update,delete', auth() == this)
 }
 
 model VerificationToken {
