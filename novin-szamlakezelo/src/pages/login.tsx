@@ -64,12 +64,12 @@ const Signup: NextPage = () => {
       <Input type="text" id="username" placeholder="" value={username} onChange={(e) => setUsername(e.currentTarget.value)} />
     </div>
     <div className="grid items-center gap-1.5">
-      <Label htmlFor="name">Jelszó</Label>
+      <Label htmlFor="password">Jelszó</Label>
       <Input type="password" id="password" placeholder="" value={password} onChange={(e) => setPassword(e.currentTarget.value)} />
     </div>
   </CardContent>
   <CardFooter className='flex justify-between'>
-    <Button type='button' onClick={()=>Router.push('/signup')}>Regisztráció</Button>
+    <Button type='button' onClick={async ()=>await Router.push('/signup')}>Regisztráció</Button>
     <Button type='submit'>Bejelentkezés</Button>
   </CardFooter>
 </Card>

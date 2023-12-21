@@ -100,7 +100,7 @@ const Signup: NextPage = () => {
     </div>
   </CardContent>
   <CardFooter className='w-full flex justify-between'>
-    <Button type='button' onClick={()=>Router.push('/')}>Vissza</Button>
+    <Button type='button' onClick={async ()=>await Router.push('/')}>Vissza</Button>
     <Button type='submit'>Tovább</Button>
   </CardFooter>
 </Card>
