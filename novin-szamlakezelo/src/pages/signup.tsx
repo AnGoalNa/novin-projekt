@@ -46,7 +46,7 @@ const Signup: NextPage = () => {
     async function onSignup(e: FormEvent) {
         e.preventDefault();
         try {
-            await signup({ data: { name, username, password, role_id: role} });
+            await signup({ data: { name, username, password, roleId: role} });
         } catch (err: any) {
             console.error(err);
             if (err.info?.prisma && err.info?.code === 'P2002') {

@@ -32,14 +32,11 @@ const Signup: NextPage = () => {
     useEffect(() => {
       (async () => {
         if(status=='authenticated'){
-          await updateUser({where: {id:session?.user.id}, data: {last_login: new Date()}});
+          await updateUser({where: {id:session?.user.id}, include: {role: true}, data: {last_login: new Date()}});
           await Router.push('/');
         }
-      })();
+      })().catch((err)=>(console.log(err)));
     
-      return () => {
-
-      };
     }, [status]);
 
     const onSubmit = (e: FormEvent)=>{

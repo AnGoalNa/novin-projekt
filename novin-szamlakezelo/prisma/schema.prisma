@@ -12,7 +12,8 @@ generator client {
     provider = "prisma-client-js"
 }
 
-/// @@allow('read', true)
+/// @@allow('read', auth() != null)
+/// @@allow('create', auth().role.id in ['admin', 'accountant'])
 model Invoice {
     id String @id() @unique() @default(cuid())
     customer String
@@ -59,7 +60,7 @@ model Session {
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-/// @@deny('create', role_id == 'admin')
+/// @@deny('create', roleId == 'admin')
 /// @@allow('create', true)
 /// @@allow('read', auth() == this || auth().role.id == 'admin')
 /// @@allow('delete', auth() == this)
@@ -77,9 +78,9 @@ model User {
     password String
     accounts Account[]
     sessions Session[]
-    role Role @relation(fields: [role_id], references: [id])
+    role Role @relation(fields: [roleId], references: [id])
     /// @deny('update', auth().role.id != 'admin')
-    role_id String
+    roleId String
 }
 
 model VerificationToken {

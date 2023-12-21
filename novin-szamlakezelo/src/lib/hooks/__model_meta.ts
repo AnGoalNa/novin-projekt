@@ -199,10 +199,10 @@ const metadata = {
                 isDataModel: true,
                 backLink: 'users',
                 isRelationOwner: true,
-                foreignKeyMapping: { id: 'role_id' },
+                foreignKeyMapping: { id: 'roleId' },
             },
-            role_id: {
-                name: 'role_id',
+            roleId: {
+                name: 'roleId',
                 type: 'String',
                 isForeignKey: true,
             },

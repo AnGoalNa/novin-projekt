@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import Head from "next/head";
 import { signOut, useSession } from 'next-auth/react';
 import Router from 'next/router';
@@ -30,7 +30,7 @@ const UserData =({ name, username, role, last_login}: { name?: string, username?
   </CardContent>
   <CardFooter className="flex flex-wrap justify-between">
     <h2>Utolsó bejelentkezés:</h2>
-    <p>{last_login?.toLocaleString()??'Ismeretlen'}</p>
+    <div>{last_login?.toLocaleString()??'Ismeretlen'}</div>
   </CardFooter>
 </Card></>)
 }

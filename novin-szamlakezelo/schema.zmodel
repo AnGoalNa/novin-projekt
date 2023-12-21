@@ -29,7 +29,8 @@ model Invoice {
   price      Float
 
   @@index([customer])
-  @@allow('read', true)
+  @@allow('read', auth()!=null)
+  @@allow('create',auth().role.id in ['admin','accountant'])
 }
 
 model Role {
@@ -79,10 +80,10 @@ model User {
     accounts      Account[] 
     sessions      Session[]
     // roles         Role[]
-    role          Role @relation(fields: [role_id], references: [id])
-    role_id       String @deny('update',auth().role.id!='admin')
+    role          Role @relation(fields: [roleId], references: [id])
+    roleId       String @deny('update',auth().role.id!='admin')
 
-    @@deny('create',role_id == 'admin')
+    @@deny('create',roleId == 'admin')
     @@allow('create', true)
     @@allow('read',auth() == this || auth().role.id=='admin')
     @@allow('delete', auth() == this)

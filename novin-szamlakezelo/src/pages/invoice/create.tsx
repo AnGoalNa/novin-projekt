@@ -47,7 +47,11 @@ const Create: NextPage = () => {
 
     const onSubmit = async (e: FormEvent)=>{
       e.preventDefault();
-      await createInvoice({data:{customer, item, comment, price, issue_date, due_date:due_date as Date}})
+      if(!due_date || [customer,item,comment].some((x)=>x.length==0))
+        alert('Töltsd ki a kötelező mezőket!')
+      else
+      
+      await createInvoice({data:{customer, item, comment, price, issue_date, due_date}})
     }
     return(
         <main className='min-h-screen flex items-center justify-center'>
