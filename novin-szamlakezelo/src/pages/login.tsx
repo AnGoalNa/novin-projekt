@@ -23,7 +23,7 @@ import { Label } from "../components/ui/label"
 import { NextPage } from 'next';
 import { useUpdateUser } from '~/lib/hooks';
 
-const Signup: NextPage = () => {
+const Login: NextPage = () => {
   const { data: session, status } = useSession();
   const { trigger: updateUser } = useUpdateUser();
     const [username, setUsername] = useState('');
@@ -77,4 +77,4 @@ const Signup: NextPage = () => {
   
 };
 
-export default Signup;
+export default Login;
