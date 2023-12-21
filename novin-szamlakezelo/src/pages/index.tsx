@@ -54,7 +54,8 @@ export default function Home() {
                 {session?.user ? (
                   <div className="flex items-center w-full justify-between max-w-2xl gap-12 lg:gap-24">
                     <UserData name={data?.name} username={data?.username} role={data?.role} last_login={data?.last_login} />
-                    <div className="flex flex-col">
+                    <div className="flex flex-col gap-4">
+                      <Button type='button' onClick={async()=>await Router.push('/invoice')}>Számlák</Button>
                       <Button type='button' onClick={()=>signOut()}>Kijelentkezés</Button>
                     </div>
                   </div>

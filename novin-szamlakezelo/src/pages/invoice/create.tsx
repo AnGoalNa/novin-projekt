@@ -32,10 +32,15 @@ import { Input } from "~/components/ui/input"
 import { Button } from "~/components/ui/button"
 import { Label } from "~/components/ui/label"
 import { NextPage } from 'next';
-import { useCreateInvoice, useUpdateUser } from '~/lib/hooks';
+import { useCreateInvoice, useFindFirstUser, useUpdateUser } from '~/lib/hooks';
 
 const Create: NextPage = () => {
   const { data: session, status } = useSession();
+  const {data:user} = useFindFirstUser({where: {id:session?.user.id}})
+
+  if(status=='unauthenticated' || (status=='authenticated' && user?.roleId=='user' ))
+  Router.push('/').catch((e)=>console.error(e))
+
   const { trigger: createInvoice } = useCreateInvoice()
     const [customer, setCustomer] = useState<string>('');
     const [item, setItem] = useState<string>('');
@@ -132,7 +137,7 @@ const Create: NextPage = () => {
     </div>
   </CardContent>
   <CardFooter className='flex justify-between'>
-    <Button type='button' onClick={async ()=> await Router.push('/')}>Vissza</Button>
+    <Button type='button' onClick={async ()=> await Router.push('/invoice')}>Vissza</Button>
     <Button type='submit'>Létrehozás</Button>
   </CardFooter>
 </Card>
