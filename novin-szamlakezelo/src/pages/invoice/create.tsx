@@ -56,7 +56,8 @@ const Create: NextPage = () => {
         alert('Töltsd ki a kötelező mezőket!')
       else
       
-      await createInvoice({data:{customer, item, comment, price, issue_date, due_date}})
+      await createInvoice({data:{customer, item, comment, price:parseFloat(price as any), issue_date, due_date}})
+      await Router.push('/invoice')
     }
     return(
         <main className='min-h-screen flex items-center justify-center'>
