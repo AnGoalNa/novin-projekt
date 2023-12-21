@@ -56,17 +56,17 @@ export const authOptions: NextAuthOptions = {
 
 function authorize(prisma: PrismaClient) {
     return async (credentials: Record<'username' | 'password', string> | undefined) => {
-        if (!credentials) throw new Error('Missing credentials');
-        if (!credentials.username) throw new Error('"username" is required in credentials');
-        if (!credentials.password) throw new Error('"password" is required in credentials');
+        if (!credentials) throw new Error('Töltsd ki a kötelező mezőket!');
+        if (!credentials.username) throw new Error('A felhasználónevet kötelező megadni!');
+        if (!credentials.password) throw new Error('A jelszót kötelező megadni!');
         const maybeUser = await prisma.user.findFirst({
             where: { username: credentials.username },
             select: { id: true, username: true, password: true },
         });
-        if (!maybeUser || !maybeUser.password) return null;
+        if (!maybeUser || !maybeUser.password) throw new Error('Sikertelen bejelentkezés!');
         // verify the input password with stored hash
         const isValid = await compare(credentials.password, maybeUser.password);
-        if (!isValid) return null;
+        if (!isValid) throw new Error('Sikertelen bejelentkezés!');
         return { id: maybeUser.id, username: maybeUser.username };
     };
 }

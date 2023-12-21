@@ -54,8 +54,7 @@ const metadata = {
                 type: 'User',
                 isDataModel: true,
                 isArray: true,
-                backLink: 'roles',
-                isRelationOwner: true,
+                backLink: 'role',
             },
         },
         account: {
@@ -170,10 +169,11 @@ const metadata = {
                 name: 'username',
                 type: 'String',
             },
-            emailVerified: {
-                name: 'emailVerified',
+            last_login: {
+                name: 'last_login',
                 type: 'DateTime',
                 isOptional: true,
+                attributes: [{ name: '@default', args: [] }],
             },
             password: {
                 name: 'password',
@@ -193,13 +193,18 @@ const metadata = {
                 isArray: true,
                 backLink: 'user',
             },
-            roles: {
-                name: 'roles',
+            role: {
+                name: 'role',
                 type: 'Role',
                 isDataModel: true,
-                isArray: true,
                 backLink: 'users',
                 isRelationOwner: true,
+                foreignKeyMapping: { id: 'role_id' },
+            },
+            role_id: {
+                name: 'role_id',
+                type: 'String',
+                isForeignKey: true,
             },
         },
         verificationToken: {

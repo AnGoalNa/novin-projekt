@@ -25,9 +25,7 @@ model Invoice {
     @@index([customer])
 }
 
-/// @@allow('read', true)
-/// @@allow('update', users^[auth()] && id == 'user')
-/// @@allow('create', users^[auth()] && id == 'user')
+/// @@allow('read', auth() != null)
 model Role {
     id String @id() @unique()
     name String
@@ -61,19 +59,27 @@ model Session {
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-/// @@allow('create,read', true)
-/// @@allow('update,delete', auth() == this)
+/// @@deny('create', role_id == 'admin')
+/// @@allow('create', true)
+/// @@allow('read', auth() == this || auth().role.id == 'admin')
+/// @@allow('delete', auth() == this)
+/// @@allow('update', auth() == this)
 model User {
+    /// @deny('update', true)
     id String @id() @default(cuid())
+    /// @deny('update', true)
     name String
+    /// @deny('update', true)
     username String @unique()
-    emailVerified DateTime?
+    last_login DateTime? @default(now())
     /// @password
     /// @omit
     password String
     accounts Account[]
     sessions Session[]
-    roles Role[]
+    role Role @relation(fields: [role_id], references: [id])
+    /// @deny('update', auth().role.id != 'admin')
+    role_id String
 }
 
 model VerificationToken {

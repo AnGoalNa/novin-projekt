@@ -12,7 +12,7 @@ async function main() {
             create: {
                 name: "Sándor",
                 username: "sanya",
-                password: "teszt"
+                password: "$2a$12$CuOoLfvQMWtUkGMVgs9Gzum0PQqNazQsarKOI1vpnIPaSgDIFerfC" //teszt
             }
         }
     }
@@ -28,7 +28,7 @@ async function main() {
             create: {
                 name: "Vándor",
                 username: "vanya",
-                password: "teszt"
+                password: "$2a$12$CuOoLfvQMWtUkGMVgs9Gzum0PQqNazQsarKOI1vpnIPaSgDIFerfC"
             }
         }
     }
@@ -44,7 +44,7 @@ async function main() {
             create: {
                 name: "Bándor",
                 username: "banya",
-                password: "teszt"
+                password: "$2a$12$CuOoLfvQMWtUkGMVgs9Gzum0PQqNazQsarKOI1vpnIPaSgDIFerfC"
             }
         }
     }

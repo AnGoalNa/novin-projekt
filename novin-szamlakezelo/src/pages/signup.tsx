@@ -5,10 +5,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import type { NextPage } from 'next';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import Router from 'next/router';
 import { useState, type FormEvent } from 'react';
-import { useMutateUser, useCreateUser } from '../lib/hooks';
+import { useCreateUser } from '../lib/hooks';
 
 import {
     Card,
@@ -33,23 +33,27 @@ import {
   } from "../components/ui/select"
 
 const Signup: NextPage = () => {
+  const { data: session, status } = useSession();
+  if(status=='authenticated')
+
+    Router.push('/').catch((e)=>console.error(e))
     const [name, setName] = useState('')
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [roles, setRoles] = useState({});
+    const [role, setRole] = useState('');
     const { trigger: signup } = useCreateUser();
 
     async function onSignup(e: FormEvent) {
         e.preventDefault();
         try {
-            await signup({ data: { name, username, password, roles: roles } });
+            await signup({ data: { name, username, password, role_id: role} });
         } catch (err: any) {
             console.error(err);
             if (err.info?.prisma && err.info?.code === 'P2002') {
                 // P2002 is Prisma's error code for unique constraint violations
-                alert('User alread exists');
+                alert('A felhasználónév már létezik');
             } else {
-                alert('An unknown error occurred');
+                alert('Kérlek töltsd ki a mezőket');
             }
             return;
         }
@@ -61,6 +65,7 @@ const Signup: NextPage = () => {
 
     return(
         <main className='w-full min-h-screen flex items-center justify-center'>
+            <form onSubmit={(e) => void onSignup(e)}>
 
         <Card className='max-w-md w-full'>
   <CardHeader>
@@ -80,7 +85,7 @@ const Signup: NextPage = () => {
       <Label htmlFor="name">Jelszó</Label>
       <Input type="password" id="password" placeholder="" value={password} onChange={(e) => setPassword(e.currentTarget.value)} />
     </div>
-    <Select onValueChange={(e) => setRoles({connect: [{id: e}]})}>
+    <Select onValueChange={(e) => setRole(e)}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Szerepkör" />
       </SelectTrigger>
@@ -94,49 +99,14 @@ const Signup: NextPage = () => {
     </Select>
     </div>
   </CardContent>
-  <CardFooter>
-    <p>Card Footer</p>
+  <CardFooter className='w-full flex justify-between'>
+    <Button type='button' onClick={()=>Router.push('/')}>Vissza</Button>
+    <Button type='submit'>Tovább</Button>
   </CardFooter>
 </Card>
+</form>
         </main>
     )
-
-    return (
-        <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-            <h1 className="text-5xl font-extrabold text-white">Sign up</h1>
-            <form className="mt-16 flex flex-col gap-8 text-2xl" onSubmit={(e) => void onSignup(e)}>
-                <div>
-                    <label htmlFor="username" className="inline-block w-32 text-white">
-                        Email
-                    </label>
-                    <input
-                        id="username"
-                        type="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.currentTarget.value)}
-                        className="ml-4 w-72 rounded border p-2"
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password" className="inline-block w-32 text-white ">
-                        Password
-                    </label>
-                    <input
-                        id="password"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.currentTarget.value)}
-                        className="ml-4 w-72 rounded border p-2"
-                    />
-                </div>
-                <input
-                    type="submit"
-                    value="Create account"
-                    className="cursor-pointer rounded border border-gray-500 py-4 text-white"
-                />
-            </form>
-        </div>
-    );
 };
 
 export default Signup;
