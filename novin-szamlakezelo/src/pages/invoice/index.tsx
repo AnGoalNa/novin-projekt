@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 
 import { useSession } from 'next-auth/react';
 import Router from 'next/router';
@@ -21,9 +22,9 @@ const List: NextPage = () => {
 
   const {data:user} = useFindFirstUser()
   const {data: data2} = useFindManyInvoice()
-  let keys: String[] = []
+  let keys: string[] = []
   if(data2?.length && data2?.length>0)
-    keys=Object.keys(data2?.[0]).slice(1)
+    keys=Object.keys((data2 as any)?.[0]).slice(1)
     console.log(user)
     return(
     <main className='flex flex-col items-center my-12 text-center gap-0.5'>
